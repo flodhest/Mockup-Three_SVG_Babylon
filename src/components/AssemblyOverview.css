@@ -1,0 +1,16 @@
+body {
+    margin: 0;
+    padding: 0;
+
+  }
+  
+  #assembly-overview-container {
+    position: relative;
+  }
+  
+  #assembly-overview-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  
