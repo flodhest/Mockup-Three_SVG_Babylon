@@ -1,46 +1,26 @@
 // src/components/Section3D.js
-import React, { useRef, useState, useEffect } from 'react';
-import { extend, useFrame } from '@react-three/fiber';
+import React, { useRef, useState } from 'react';
+import { extend, Canvas, useThree, useFrame } from '@react-three/fiber';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+
+// Import the necessary three.js components
 import { BoxGeometry } from 'three';
 
-extend({ BoxGeometry });
+extend({ BoxGeometry, OrbitControls });
 
-const Section3D = ({ width, height, depth, transparent = false, color = 0xffffff, outlineColor = 0x000000, onClick, rotation, scale = 0.05 }) => {
+const Cube = ({ width, height, depth, transparent = false, color = 0xffffff, outlineColor = 0x000000, onClick, rotation, scale = 0.05 }) => {
   const meshRef = useRef();
   const [isHovered, setHover] = useState(false);
 
   useFrame(() => {
-    // Set rotation and scale based on the props
-    meshRef.current.rotation.x = 0;
-    meshRef.current.rotation.y = rotation;
-    meshRef.current.rotation.z = 0; // Ensure no rotation around Z-axis
-    meshRef.current.scale.set(scale, scale, scale);
+    meshRef.current.rotation.x += 0.01;
+    meshRef.current.rotation.y += 0.01;
   });
-
-  useEffect(() => {
-    const handleKeyPress = (event) => {
-      if (event.key === 'ArrowRight') {
-        // Rotate to the left when the right arrow key is pressed
-        onClick && onClick(rotation - Math.PI / 2);
-      } else if (event.key === 'ArrowLeft') {
-        // Rotate to the right when the left arrow key is pressed
-        onClick && onClick(rotation + Math.PI / 2);
-      }
-    };
-
-    // Add event listeners
-    window.addEventListener('keydown', handleKeyPress);
-
-    // Remove event listeners on component unmount
-    return () => {
-      window.removeEventListener('keydown', handleKeyPress);
-    };
-  }, [onClick, rotation]);
 
   return (
     <mesh
       ref={meshRef}
-      position={[0, -height / 2 * scale, 0]} // Center the section at the bottom, consider the scale
+      position={[0, -height / 2 * scale, 0]}
       onClick={onClick}
       onPointerOver={() => setHover(true)}
       onPointerOut={() => setHover(false)}
@@ -52,6 +32,36 @@ const Section3D = ({ width, height, depth, transparent = false, color = 0xffffff
         <meshStandardMaterial attach="material" color={0xaaaaaa} transparent opacity={0.7} />
       )}
     </mesh>
+  );
+};
+
+const Controls = () => {
+  const { camera, gl } = useThree();
+  const controlsRef = useRef();
+
+  useFrame(() => {
+    controlsRef.current.update();
+  });
+
+  return <orbitControls ref={controlsRef} args={[camera, gl.domElement]} />;
+};
+
+const Section3D = ({ width, height, depth, transparent, color, outlineColor, onClick, rotation, scale }) => {
+  return (
+    <Canvas style={{ width: '100%', height: '100%' }}>
+      <Cube
+        width={width}
+        height={height}
+        depth={depth}
+        transparent={transparent}
+        color={color}
+        outlineColor={outlineColor}
+        onClick={onClick}
+        rotation={rotation}
+        scale={scale}
+      />
+      <Controls />
+    </Canvas>
   );
 };
 
