@@ -10,7 +10,11 @@ const Home = () => {
 
   const addSection = () => {
     if (sections.length < 4) {
-      const newSection = { title: `Section ${sections.length + 1}`, rotation: 0 };
+      const newSection = {
+        title: `Section ${sections.length + 1}`,
+        rotation: 0,
+        cubes: [{}, {}, {}], // Add three empty cubes to the new section
+      };
       setSections([...sections, newSection]);
     }
   };
@@ -26,7 +30,6 @@ const Home = () => {
     </Box>
   );
 };
-
 const AssemblyScene = () => (
   <Box>
     <TopBar />

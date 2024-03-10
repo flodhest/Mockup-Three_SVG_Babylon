@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "es2016",
+    "module": "esnext",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    // ... other options
+
+    "jsx": "react-jsx", // Use this setting for React 18.2
+    "reactNamespace": "React",
+    "strict": true
+    // ... other options
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": ["node_modules"]
+}

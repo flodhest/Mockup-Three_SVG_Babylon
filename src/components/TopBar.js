@@ -4,37 +4,38 @@ import { Box, Button, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui
 
 const TopBar = ({ addSection }) => {
   return (
-    <Box bg="lightgrey" p={4}>
+    <Box bg="lightgrey" p={0}>
       <Tabs isFitted variant="enclosed-colored">
-        <TabList>
-          <Tab _selected={{ color: 'white', bg: 'orange' }}>Mechanical</Tab>
-          <Tab _selected={{ color: 'white', bg: 'orange' }}>Electronical</Tab>
-          <Tab _selected={{ color: 'white', bg: 'orange' }}>Layers</Tab>
-          <Tab _selected={{ color: 'white', bg: 'orange' }}>Misc</Tab>
+        <TabList  p={0}>
+          <Tab _selected={{ color: 'white', bg: 'orange' }}>MY PROJECTS</Tab>
+          <Tab _selected={{ color: 'white', bg: 'orange' }}>NEW PROJECT</Tab>
+          <Tab _selected={{ color: 'white', bg: 'orange' }}>ASSEMBLY SETUP</Tab>
+          <Tab _selected={{ color: 'white', bg: 'orange' }}>ASSEMBLY</Tab>
         </TabList>
-        <TabPanels>
-          <TabPanel>
-            <Tabs>
-              <TabPanels>
-                <TabPanel>
-                  <Tabs>
-                    <TabList>
-                      <Tab>Frame</Tab>
-                      <Tab>Misc</Tab>
+        <TabPanels  p={0}>
+          <TabPanel  p={0}>
+            <Tabs  p={0}>
+              <TabPanels  p={0}>
+                <TabPanel  p={0}>
+                  <Tabs  p={0}>
+                    <TabList  p={0}>
+                      <Tab  p={3}>Frame</Tab>
+                      <Tab >Misc</Tab>
                       <Tab>Busbar</Tab>
                     </TabList>
-                    <TabPanels>
-                      <TabPanel>
+                    <TabPanels  p={0}>
+                      <TabPanel  p={0}>
                         <Button
                           onClick={addSection}
                           colorScheme="teal"
                           variant="ghost"
-                          mt={1} 
+                          mt={1}
+                         
                         >
                           + Add Section
                         </Button>
                         <Button
-                          onClick={addSection}
+                    
                           colorScheme="teal"
                           variant="ghost"
                           mt={1} 
@@ -42,7 +43,7 @@ const TopBar = ({ addSection }) => {
                           + Add Group
                         </Button>
                         <Button
-                          onClick={addSection}
+                   
                           colorScheme="teal"
                           variant="ghost"
                           mt={1} 

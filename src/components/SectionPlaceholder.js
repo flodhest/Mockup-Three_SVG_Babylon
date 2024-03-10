@@ -6,10 +6,10 @@ const SectionPlaceholder = ({ onClick }) => {
     <Box
       border="2px dotted" 
       borderRadius="md" 
-      p={10}
-      m={2}
-      width="270px"
-      height="650px"
+      p={0}
+      m={-3}
+      width="230px"
+      height="560px"
       textAlign="center"
       cursor="pointer"
       onClick={onClick}
