@@ -4,9 +4,9 @@ import { Box, Button, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui
 
 const TopBar = ({ addSection }) => {
   return (
-    <Box bg="lightgrey" p={0}>
+    <Box bg="lightgrey" p={1}>
       <Tabs isFitted variant="enclosed-colored">
-        <TabList  p={0}>
+        <TabList  p={1}>
           <Tab _selected={{ color: 'white', bg: 'orange' }}>MY PROJECTS</Tab>
           <Tab _selected={{ color: 'white', bg: 'orange' }}>NEW PROJECT</Tab>
           <Tab _selected={{ color: 'white', bg: 'orange' }}>ASSEMBLY SETUP</Tab>
@@ -19,7 +19,7 @@ const TopBar = ({ addSection }) => {
                 <TabPanel  p={0}>
                   <Tabs  p={0}>
                     <TabList  p={0}>
-                      <Tab  p={3}>Frame</Tab>
+                      <Tab  p={2}>Frame</Tab>
                       <Tab >Misc</Tab>
                       <Tab>Busbar</Tab>
                     </TabList>
@@ -27,7 +27,7 @@ const TopBar = ({ addSection }) => {
                       <TabPanel  p={0}>
                         <Button
                           onClick={addSection}
-                          colorScheme="teal"
+                          colorScheme="blue"
                           variant="ghost"
                           mt={1}
                          
@@ -36,7 +36,7 @@ const TopBar = ({ addSection }) => {
                         </Button>
                         <Button
                     
-                          colorScheme="teal"
+                    colorScheme="blue"
                           variant="ghost"
                           mt={1} 
                         >
@@ -44,7 +44,7 @@ const TopBar = ({ addSection }) => {
                         </Button>
                         <Button
                    
-                          colorScheme="teal"
+                   colorScheme="blue"
                           variant="ghost"
                           mt={1} 
                         >

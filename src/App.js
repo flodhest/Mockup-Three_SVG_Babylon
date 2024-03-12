@@ -10,11 +10,7 @@ const Home = () => {
 
   const addSection = () => {
     if (sections.length < 4) {
-      const newSection = {
-        title: `Section ${sections.length + 1}`,
-        rotation: 0,
-        cubes: [{}, {}, {}], // Add three empty cubes to the new section
-      };
+      const newSection = { title: `Section ${sections.length + 1}`, rotation: 0 };
       setSections([...sections, newSection]);
     }
   };
@@ -30,30 +26,13 @@ const Home = () => {
     </Box>
   );
 };
-const AssemblyScene = () => (
-  <Box>
-    <TopBar />
-    <Box>
-      <h2>Assembly Scene Page</h2>
-    </Box>
-  </Box>
-);
 
-const OtherScene = () => (
-  <Box>
-    <TopBar />
-    <Box>
-      <h2>Other Scene Page</h2>
-    </Box>
-  </Box>
-);
 
 const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/assembly-scene" element={<AssemblyScene />} />
-      <Route path="/other-scene" element={<OtherScene />} />
+
     </Routes>
   );
 };

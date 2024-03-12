@@ -10,7 +10,7 @@ const theme = extendTheme({
     gre: '#008080',
     lightgrey: '#f0f0f0',
     white: '#ffffff',
-    orange: 'darkblue',
+    orange: '#1d2791',
   },
 });
 
