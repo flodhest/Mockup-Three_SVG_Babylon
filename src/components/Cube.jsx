@@ -1,19 +1,23 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useControls } from 'leva';
 import { Html } from '@react-three/drei';
 import { EditIcon } from '@chakra-ui/icons';
-import { Button, Menu, MenuButton, MenuList, MenuItem } from '@chakra-ui/react';
-import { motion } from 'framer-motion';
+import { Menu, MenuButton, MenuList, MenuItem, useToast } from '@chakra-ui/react';
 
+let cubeCounter = 0;
 
-const AnimatedMenuButton = motion(MenuButton);
-const Cube = ({ position, onClick, opacity }) => {
-  const ref = useRef();
+const Cube = ({ position, onClick, onRemove, onAddGroup }) => {
+  const meshRef = useRef();
   const [isHovered, setIsHovered] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isWireframe, setIsWireframe] = useState(false);
+  const toast = useToast();
 
-  const controls = useControls(
-    `Group ${position.join('-')} Controls`,
+  cubeCounter++;
+  const cubeId = `Group-${cubeCounter}`;
+
+  const localControls = useControls(
+    `${cubeId} Controls`,
     {
       visibility: { value: true, label: 'Visible' },
       color: { value: '#000', label: 'Color' },
@@ -23,56 +27,79 @@ const Cube = ({ position, onClick, opacity }) => {
       positionX: { value: position[0], min: -5, max: 5, label: 'X-Position', step: 0.001 },
       positionY: { value: position[1], min: -5, max: 5, label: 'Y-Position', step: 0.001 },
       positionZ: { value: position[2], min: -5, max: 5, label: 'Z-Position', step: 0.100 },
-      wireframe: { value: false, label: 'Wireframe' },
-      opacity: { value: opacity || 1, min: 0, max: 1, label: 'Opacity', step: 0.5 },
+      wireframe: { value: true, label: 'Wireframe' },
+      opacity: { value: 0.4, min: 0, max: 1, label: 'Opacity', step: 0.01 },
     },
     { collapsed: true }
   );
+
+  useEffect(() => {
+    setIsWireframe(localControls.wireframe);
+  }, [localControls.wireframe]);
+
   const handleEditClick = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
   const handleMenuItemClick = (option) => {
-    // Handle the click event for menu items
-    console.log(`Clicked on ${option}`);
-    // Close the menu if needed
+    if (option === 'Delete') {
+      onRemove();
+      toast({
+        title: 'Cube Deleted',
+        status: 'success',
+        isClosable: true,
+      });
+    } else if (option === 'AddGroup') {
+      onAddGroup();
+      toast({
+        title: 'Group Added',
+        status: 'success',
+        isClosable: true,
+      });
+    }
     setIsMenuOpen(false);
   };
 
+  useEffect(() => {
+    const serializedCubeState = JSON.stringify(localControls);
+    localStorage.setItem(`cubeState-${cubeId}`, serializedCubeState);
+  }, [localControls, cubeId, position]);
+
   return (
     <mesh
-      ref={ref}
-      position={[controls.positionX, controls.positionY, controls.positionZ]}
+      ref={meshRef}
+      position={[localControls.positionX, localControls.positionY, localControls.positionZ]}
       onClick={onClick}
       onPointerOver={() => setIsHovered(true)}
       onPointerOut={() => setIsHovered(false)}
     >
-      <boxGeometry args={[controls.width, controls.height, controls.depth]} />
+      <boxGeometry args={[localControls.width, localControls.height, localControls.depth]} />
       <meshBasicMaterial
-        wireframe={controls.wireframe}
-        color={isHovered ? 0x0000ff : controls.color}
-
+        wireframe={localControls.wireframe}
+        color={isHovered ? 0xff0000 : localControls.color}
         transparent
-        opacity={controls.opacity}
-        visible={controls.visibility}
+        opacity={localControls.opacity}
+        visible={localControls.visibility}
       />
       <Html>
         <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
           <Menu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)}>
-            <AnimatedMenuButton
-              as={Button}
+            <MenuButton
               onClick={handleEditClick}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              bgColor="blue.500" // Set background color
-              color="lightgrey" // Set font color
+              bgColor={isHovered ? 'blue.600' : 'blue.500'}
+              color={isWireframe ? 'black' : 'white'}
+              borderRadius="md"
+              p={2}
             >
               <EditIcon style={{ cursor: 'pointer', height: '15px', width: '15px' }} />
-            </AnimatedMenuButton>
-            <MenuList>
-              <MenuItem  color="white"  onClick={() => handleMenuItemClick('Option 1')}>Add group</MenuItem>
-          
-              {/* Add more menu options as needed */}
+            </MenuButton>
+            <MenuList color="black" bgColor="grey">
+              <MenuItem onClick={() => handleMenuItemClick('AddGroup')} _hover={{ bgColor: 'blue.600' }}>
+                Add Group
+              </MenuItem>
+              <MenuItem onClick={() => handleMenuItemClick('Delete')} _hover={{ bgColor: 'red.500' }}>
+                Delete
+              </MenuItem>
             </MenuList>
           </Menu>
         </div>

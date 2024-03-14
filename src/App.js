@@ -7,6 +7,10 @@ import AssemblyOverview from './components/AssemblyOverview';
 
 const Home = () => {
   const [sections, setSections] = useState([]);
+ const onSidebarToggle = (isOpen) => {
+    // Your logic for toggling the sidebar
+    console.log('Sidebar is now', isOpen ? 'open' : 'closed');
+  };
 
   const addSection = () => {
     if (sections.length < 4) {
@@ -17,10 +21,10 @@ const Home = () => {
 
   return (
     <Box>
-      <TopBar addSection={addSection} />
+      <TopBar addSection={addSection} onSidebarToggle={onSidebarToggle} />
       <Flex>
         <Box>
-          <AssemblyOverview sections={sections} setSections={setSections} />
+          <AssemblyOverview sections={sections} setSections={setSections} onSidebarToggle={onSidebarToggle} />
         </Box>
       </Flex>
     </Box>
