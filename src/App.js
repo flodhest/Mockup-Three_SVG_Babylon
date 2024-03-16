@@ -4,7 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 import { Box, Flex } from '@chakra-ui/react';
 import TopBar from './components/TopBar';
 import AssemblyOverview from './components/AssemblyOverview';
-
+import { Leva } from 'leva'
 const Home = () => {
   const [sections, setSections] = useState([]);
  const onSidebarToggle = (isOpen) => {
@@ -23,6 +23,7 @@ const Home = () => {
     <Box>
       <TopBar addSection={addSection} onSidebarToggle={onSidebarToggle} />
       <Flex>
+      <Leva collapsed />
         <Box>
           <AssemblyOverview sections={sections} setSections={setSections} onSidebarToggle={onSidebarToggle} />
         </Box>
