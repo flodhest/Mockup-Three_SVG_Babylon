@@ -21,6 +21,11 @@ const Cube = ({ position, onClick, onRemove, onAddGroup }) => {
     setIsWireframe(localControls.wireframe);
   }, [localControls.wireframe]);
 
+  useEffect(() => {
+    const serializedCubeState = JSON.stringify(localControls);
+    localStorage.setItem(`cubeState-${cubeId}`, serializedCubeState);
+  }, [localControls, cubeId, position]);
+
   const handleEditClick = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -43,11 +48,6 @@ const Cube = ({ position, onClick, onRemove, onAddGroup }) => {
     }
     setIsMenuOpen(false);
   };
-
-  useEffect(() => {
-    const serializedCubeState = JSON.stringify(localControls);
-    localStorage.setItem(`cubeState-${cubeId}`, serializedCubeState);
-  }, [localControls, cubeId, position]);
 
   return (
     <mesh
