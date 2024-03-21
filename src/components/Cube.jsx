@@ -3,6 +3,8 @@ import { Html } from '@react-three/drei';
 import { EditIcon } from '@chakra-ui/icons';
 import { Menu, MenuButton, MenuList, MenuItem, useToast } from '@chakra-ui/react';
 import { useCubeControls } from './CubeControls';
+import { OBJExporter } from 'three/examples/jsm/exporters/OBJExporter.js';
+import { saveAs } from 'file-saver'; // Import file-saver to save OBJ file
 
 let cubeCounter = 0;
 
@@ -45,8 +47,17 @@ const Cube = ({ position, onClick, onRemove, onAddGroup }) => {
         status: 'success',
         isClosable: true,
       });
+    } else if (option === 'ExportOBJ') {
+      exportToOBJ();
     }
     setIsMenuOpen(false);
+  };
+
+  const exportToOBJ = () => {
+    const exporter = new OBJExporter();
+    const result = exporter.parse(meshRef.current);
+    const blob = new Blob([result], { type: 'text/plain' });
+    saveAs(blob, 'cube.obj');
   };
 
   return (
@@ -83,6 +94,9 @@ const Cube = ({ position, onClick, onRemove, onAddGroup }) => {
               </MenuItem>
               <MenuItem onClick={() => handleMenuItemClick('Delete')} _hover={{ bgColor: 'red.500' }}>
                 Delete
+              </MenuItem>
+              <MenuItem onClick={() => handleMenuItemClick('ExportOBJ')} _hover={{ bgColor: 'green.500' }}>
+                Export OBJ
               </MenuItem>
             </MenuList>
           </Menu>
